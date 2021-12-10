@@ -1,5 +1,6 @@
+from pathlib import Path
 syntax_input = []
-with open('/Users/ryan/develop/advent-of-code-2021/day10/input.txt') as f:
+with open(str(Path(__file__).resolve().parent) + '/input.txt') as f:
     syntax_input = f.read().split('\n')
 
 MATCHING_PAIR = {

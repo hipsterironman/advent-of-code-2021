@@ -45,6 +45,27 @@ def measure_basin(i, j, points, visited):
             + measure_basin(i, j - 1, points, visited))
 
 
+def measure_basin_bfs(start, points):
+    queue = [start]
+    visited = []
+    measurement = 0
+    while queue:
+        i, j = queue.pop()
+        if (i >= len(points) or i < 0 or j >= len(points[i]) or j < 0
+                or (i, j) in visited or points[i][j] == 9):
+            visited.append((i, j))
+            continue
+
+        visited.append((i, j))
+        measurement += 1
+        queue.extend([(i + 1, j), (i - 1, j), (i, j + 1), (i, j - 1)])
+
+    return measurement
+
+
 basin_sizes = [measure_basin(i, j, heights, [])
                for i, j in low_point_locations]
+basin_sizes_bfs = [measure_basin_bfs((i, j), heights)
+                   for i, j in low_point_locations]
 print(prod(sorted(basin_sizes)[-3:]))
+print(prod(sorted(basin_sizes_bfs)[-3:]))

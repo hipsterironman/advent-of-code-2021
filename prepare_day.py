@@ -1,10 +1,17 @@
 from os import mkdir, environ
-from sys import argv
 from pathlib import Path
 from dotenv import load_dotenv
 from requests import get
+from datetime import date
 
-DAY = argv[1]
+DAY = int(date.today().strftime('%d'))
+BOILERPLATE = (
+    """from pathlib import Path
+contents = []
+with open(str(Path(__file__).resolve().parent) + '/input.txt') as f:
+    contents = f.read().split('\\n')
+
+""")
 
 load_dotenv()
 cookies = {
@@ -19,7 +26,4 @@ with open('{0}/day{1}/input.txt'.format(str(Path.cwd()), DAY), 'w') as f:
     f.write(response.text)
 
 with open('{0}/day{1}/problem.py'.format(str(Path.cwd()), DAY), 'w') as f:
-    f.write("""from pathlib import Path
-contents = []
-with open(str(Path(__file__).resolve().parent) + '/input.txt') as f:
-    contents = f.read().split('\\n')""")
+    f.write(BOILERPLATE)

@@ -5,20 +5,19 @@ with open(str(Path(__file__).resolve().parent) + '/input.txt') as f:
     contents = f.read().split('\n')
 
 polymer = contents[0]
-raw_pair_insertions = contents[2:]
+raw_pair_insertions = map(lambda line: line.split(' -> '), contents[2:])
 
 pair_insertions = defaultdict(str)
-for pair in raw_pair_insertions:
-    couple, element = pair.split(' -> ')
+for couple, element in raw_pair_insertions:
     pair_insertions[couple] = element
 
 pairs_count = defaultdict(int)
-chars_count = defaultdict(int)
 for i in range(len(polymer) - 1):
     pairs_count[polymer[i:i + 2]] += 1
-    chars_count[polymer[i]] += 1
 
-chars_count[polymer[-1]] += 1
+chars_count = defaultdict(int)
+for char in polymer:
+    chars_count[char] += 1
 
 for _ in range(40):
     for (char1, char2), num in pairs_count.copy().items():
